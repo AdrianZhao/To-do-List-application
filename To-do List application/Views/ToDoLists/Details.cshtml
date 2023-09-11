@@ -44,7 +44,7 @@
                         <td>@item.Priority</td>
                         <td>
                             <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
-                                <button type="submit" class="btn btn-primary">Toggle</button>                               
+                                <button type="submit" class="btn btn-primary">Uncompleted</button>                               
                             </form>
                         </td>
                     </tr>
@@ -84,7 +84,7 @@
                     <td>@item.Priority</td>
                     <td>
                         <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
-                            <button type="submit" class="btn btn-primary">Toggle</button>
+                            <button type="submit" class="btn btn-primary">Completed</button>
                             <input type="hidden" name="notcompleted" value="true" asp-for="@item.Completed" />
                         </form>
                     </td>
