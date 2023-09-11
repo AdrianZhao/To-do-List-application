@@ -1,0 +1,102 @@
+﻿@model To_do_List_application.ViewModels.ToDoListDetailsViewModel
+
+@{
+    ViewData["Title"] = "List Details";
+}
+
+<h1>List Details - @Model.ToDoList.Title</h1>
+
+<div>
+    <p>Number of Not Completed Items: @Model.NotCompletedItems.Count</p>
+    <button id="toggleCompletedButton" class="btn btn-primary">Show Completed Items</button>
+    <a asp-action="CreateItem" asp-controller="ToDoItems" asp-route-listId="@Model.ToDoList.ToDoListID" class="btn btn-success">Create New Todo Item</a>
+    <a asp-action="ConfirmDelete" asp-route-id="@Model.ToDoList.ToDoListID" class="btn btn-danger">Delete List</a>
+</div>
+
+<div id="completedItemsSection" style="display: none;">
+    <h3>Completed Items</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of Creation</th>
+                <th>Description (optional)</th>
+                <th>Priority</th>
+                <th>Toggle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model.CompletedItems
+            .GroupBy(item => item.Priority)
+            .OrderByDescending(group => group.Key))
+            {
+                <tr>
+                    <th colspan="5" style="background-color: lightgray;">
+                        Priority: @group.Key
+                    </th>
+                </tr>
+                @foreach (var item in group.OrderByDescending(item => item.CreateTime))
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@item.Description</td>
+                        <td>@item.Priority</td>
+                        <td>
+                            <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
+                                <button type="submit" class="btn btn-primary">Toggle</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<h3>Todo Items</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date of Creation</th>
+            <th>Description (optional)</th>
+            <th>Priority</th>
+            <th>Toggle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model.NotCompletedItems
+        .GroupBy(item => item.Priority)
+        .OrderByDescending(group => group.Key))
+        {
+            <tr>
+                <th colspan="5" style="background-color: lightgray;">
+                    Priority: @group.Key
+                </th>
+            </tr>
+            @foreach (var item in group.OrderByDescending(item => item.CreateTime))
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@item.Description</td>
+                    <td>@item.Priority</td>
+                    <td>
+                        <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
+                            <button type="submit" class="btn btn-primary">Toggle</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $("#toggleCompletedButton").click(function () {
+            $("#completedItemsSection").toggle();
+        });
+    </script>
+}

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<To_do_List_application.Models.ToDoList>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>@ViewData["Message"]</div>
+
+<a asp-action="Create">Add New List</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToDoListID)
+            </th>
+            <th>
+                Total items in the list
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var l in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => l.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => l.ToDoListID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => l.Items.Count)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@l.ToDoListID">Show Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

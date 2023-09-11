@@ -1,0 +1,19 @@
+﻿@model To_do_List_application.ViewModels.ToDoListDetailsViewModel
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
+
+<h1>Confirm Delete</h1>
+
+<p>Are you sure you want to delete the list with the title: <strong>@Model.ToDoList.Title</strong>?</p>
+
+<p>Warning: Deleting this list will also delete all associated Todo Items.</p>
+
+<p>Number of Completed Todo Items in this list: @Model.CompletedItems.Count</p>
+<p>Number of Not Completed Todo Items in this list: @Model.NotCompletedItems.Count</p>
+
+<form asp-action="ConfirmDelete" asp-route-id="@Model.ToDoList.ToDoListID" method="post">
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Details" asp-route-id="@Model.ToDoList.ToDoListID" class="btn btn-secondary">Cancel</a>
+</form>
