@@ -32,14 +32,23 @@ namespace To_do_List_application.Controllers
 
         [HttpPost]
         [Route("/lists/add-item")]
-        public IActionResult CreateItem([Bind("Title, Description, Priority")] ToDoItem item)
+        public IActionResult CreateItem([Bind("Title, Description, Priority, ToDoListID")] ToDoItem item)
         {
-            if (TryValidateModel(item))
+            ToDoItem temp = _context.Item.FirstOrDefault(i => i.Title == item.Title);
+            if (temp == null)
             {
-                _context.Item.Add(item);
-                _context.SaveChanges();
+                ModelState.Clear();
+                if (ModelState.IsValid)
+                {
+                    _context.Item.Add(item);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Index", "lists");
             }
-            return RedirectToAction("Index", "Lists");
+            else
+            {
+                return BadRequest();
+            }                        
         }
     }
 }

@@ -63,7 +63,6 @@ namespace To_do_List_application.Controllers
             {
                 return NotFound();
             }
-
             ToDoList? toDoList = _context.List.Include(list => list.Items).FirstOrDefault(m => m.ToDoListID == id);
             if (toDoList == null)
             {
@@ -89,6 +88,25 @@ namespace To_do_List_application.Controllers
                 NotCompletedItems = notCompletedItems
             };
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [Route("/lists/details")]
+        public IActionResult ToggleCompleted(int? id)
+        {
+            if (id == null || _context.Item == null)
+            {
+                return NotFound();
+            }
+            ToDoItem? toDoItem = _context.Item.FirstOrDefault(i =>i.ToDoItemID == id);
+            if (toDoItem == null)
+            {
+                return NotFound();
+            }
+            toDoItem.Completed = !toDoItem.Completed;
+            _context.SaveChanges();
+            ModelState.Clear();
+            return RedirectToAction("Details", new { id = toDoItem.ToDoListID });
         }
 
         [Route("/lists/delete")]

@@ -14,8 +14,8 @@ namespace To_do_List_application.Models
         public string Title { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Creation")]
-        public DateTime CreateTime { get; set; }
-        [Required(ErrorMessage = "Priority is required.")]
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        [Required(ErrorMessage = "Priority is required.")]  
         public Priority Priority{ get; set; }
         [MaxLength(1000, ErrorMessage = "Description must less than 1000 characters.")]
         public string? Description { get; set; }

@@ -28,7 +28,7 @@
         <tbody>
             @foreach (var group in Model.CompletedItems
             .GroupBy(item => item.Priority)
-            .OrderByDescending(group => group.Key))
+            .OrderBy(group => group.Key))
             {
                 <tr>
                     <th colspan="5" style="background-color: lightgray;">
@@ -44,7 +44,7 @@
                         <td>@item.Priority</td>
                         <td>
                             <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
-                                <button type="submit" class="btn btn-primary">Toggle</button>
+                                <button type="submit" class="btn btn-primary">Toggle</button>                               
                             </form>
                         </td>
                     </tr>
@@ -68,7 +68,7 @@
     <tbody>
         @foreach (var group in Model.NotCompletedItems
         .GroupBy(item => item.Priority)
-        .OrderByDescending(group => group.Key))
+        .OrderBy(group => group.Key))
         {
             <tr>
                 <th colspan="5" style="background-color: lightgray;">
@@ -85,6 +85,7 @@
                     <td>
                         <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
                             <button type="submit" class="btn btn-primary">Toggle</button>
+                            <input type="hidden" name="notcompleted" value="true" asp-for="@item.Completed" />
                         </form>
                     </td>
                 </tr>
