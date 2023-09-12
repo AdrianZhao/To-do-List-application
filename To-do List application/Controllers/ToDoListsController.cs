@@ -52,7 +52,7 @@ namespace To_do_List_application.Controllers
                 _context.List.Add(list);
                 _context.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = list.ToDoListID });
         }
 
         // GET: ToDoLists/Details/

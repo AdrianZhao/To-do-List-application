@@ -11,6 +11,7 @@
     <button id="toggleCompletedButton" class="btn btn-primary">Show Completed Items</button>
     <a asp-action="CreateItem" asp-controller="ToDoItems" asp-route-listId="@Model.ToDoList.ToDoListID" class="btn btn-success">Create New Todo Item</a>
     <a asp-action="ConfirmDelete" asp-route-id="@Model.ToDoList.ToDoListID" class="btn btn-danger">Delete List</a>
+    <a asp-action="Index" class="btn btn-secondary">Show all lists</a>
 </div>
 
 <div id="completedItemsSection" style="display: none;">
@@ -22,7 +23,7 @@
                 <th>Date of Creation</th>
                 <th>Description (optional)</th>
                 <th>Priority</th>
-                <th>Toggle</th>
+                <th>Click to uncomplete</th>
             </tr>
         </thead>
         <tbody>
@@ -40,11 +41,13 @@
                     <tr>
                         <td>@item.Title</td>
                         <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                        <td>@item.Description</td>
+                        <td>
+                            <small>@item.Description</small>
+                        </td>
                         <td>@item.Priority</td>
                         <td>
                             <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
-                                <button type="submit" class="btn btn-primary">Uncompleted</button>                               
+                                <button type="submit" class="btn btn-primary">Uncomplete</button>                               
                             </form>
                         </td>
                     </tr>
@@ -62,7 +65,7 @@
             <th>Date of Creation</th>
             <th>Description (optional)</th>
             <th>Priority</th>
-            <th>Toggle</th>
+            <th>Click to complete</th>
         </tr>
     </thead>
     <tbody>
@@ -84,8 +87,7 @@
                     <td>@item.Priority</td>
                     <td>
                         <form asp-action="ToggleCompleted" asp-route-id="@item.ToDoItemID" method="post">
-                            <button type="submit" class="btn btn-primary">Completed</button>
-                            <input type="hidden" name="notcompleted" value="true" asp-for="@item.Completed" />
+                            <button type="submit" class="btn btn-primary">Complete</button>                            
                         </form>
                     </td>
                 </tr>

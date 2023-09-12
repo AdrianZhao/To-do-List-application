@@ -12,8 +12,8 @@ using To_do_List_application.Data;
 namespace To_do_List_application.Migrations
 {
     [DbContext(typeof(ToDoListApplicationDbContext))]
-    [Migration("20230911052906_Ininial")]
-    partial class Ininial
+    [Migration("20230912022526_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -34,21 +34,27 @@ namespace To_do_List_application.Controllers
         [Route("/lists/add-item")]
         public IActionResult CreateItem([Bind("Title, Description, Priority, ToDoListID")] ToDoItem item)
         {
+            ViewData["listId"] = item.ToDoListID;
+
+            // Check if an item with the same title already exists
             ToDoItem temp = _context.Item.FirstOrDefault(i => i.Title == item.Title);
-            if (temp == null)
+
+            if (temp != null)
             {
-                ModelState.Clear();
-                if (ModelState.IsValid)
-                {
-                    _context.Item.Add(item);
-                    _context.SaveChanges();
-                }
-                return RedirectToAction("Index", "lists");
+                // Item with the same title exists; add a validation error and return to the view
+                ModelState.AddModelError(string.Empty, "An item with this title already exists.");
+                return View(item);
             }
-            else
+
+            // If there are no validation errors, save the new item
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }                        
+                _context.Item.Add(item);
+                _context.SaveChanges();
+                return RedirectToAction("Details", "ToDoLists", new { id = item.ToDoListID });
+            }           
+            // If ModelState is not valid, return to the view to display validation errors
+            return View(item);
         }
     }
 }
